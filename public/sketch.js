@@ -1,4 +1,43 @@
-const DEFAULT_HASH = '0x175adf5fc058830a6319b8238ecc911db6e1b8dd40965629b5f0c5bee655598c'
+const DEFAULT_HASH_1 = '0x175adf5fc058830a6319b8238ecc911db6e1b8dd40965629b5f0c5bee655598c'
+const DEFAULT_HASH_2 = '0xa3b47cf8e159640f2b8acd89ef4c2d1a7b9e5d2c40172638c9d0e1fab1234567';
+const DEFAULT_HASH = '0x1c2d3a4b5e6f79808765c4b3a29180e2d3c4b5a6e7f890121314151617181920';
+const DEFAULT_HASH_4 = '0xffeeddccbbaa99887766554433221100aabbccddeeff00112233445566778899';
+const DEFAULT_HASH_5 = '0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01';
+const DEFAULT_HASH_6 = '0xdeadbeefcafebabe0123456789abcdef0123456789abcdef0123456789abcdef';
+
+function getValueFromHash(hash, index, range) {
+  return Math.floor(hashRandom(hash, index) * range);
+}
+
+function getThetaFromHash(hash) {
+ const predefinedValues = [TWO_PI / 6, TWO_PI / 8, TWO_PI / 10];
+ return predefinedValues[getValueFromHash(hash, 6, predefinedValues.length)];
+}
+
+function getGenerationsFromHash(hash) {
+ // Get a value between 3 and 6
+ return getValueFromHash(hash, 4, 4) + 2;
+}
+
+function getStrokeColorFromHash(hash) {
+ // Generate RGB values based on different parts of the hash
+ const r = Math.floor(hashRandom(hash, 4) * 150) + 100;
+ const g = Math.floor(hashRandom(hash, 6) * 150) + 100;
+ const b = Math.floor(hashRandom(hash, 8) * 150) + 100;
+ return [r, g, b];
+}
+
+function hashRandom(hash, index) {
+  // Simple hash-based pseudo-random number generator
+  // 'index' ensures different values for different calls
+  if (index < 0) {
+    index = 0;
+  }
+  const char = hash.charCodeAt(index % hash.length);
+  const seed = (char * (index + 1)) % 256;
+  return seed / 255;
+}
+
 
 function windowResized() {
   canvasSize = windowWidth < windowHeight ? windowWidth : windowHeight
@@ -17,12 +56,12 @@ function setup() {
   const params = getURLParams();
 
   hash = params.hash || DEFAULT_HASH;
-  console.log(hash);
+  console.log(hashRandom(hash, 2));
 
   // Parameters that the user can modify
   let startLength = 460.0;
-  let theta = TWO_PI / 6; // 6, 10 
-  let generations = 5; // Number of generations 1-6
+  let theta = getThetaFromHash(hash); // 6, 8, 10 
+  let generations = getGenerationsFromHash(hash);
   let rules = {
     W: "YF++ZF----XF[-YF----WF]++",
     X: "+YF--ZF[---WF--XF]+",
@@ -30,11 +69,11 @@ function setup() {
     Z: "--YF++++WF[+ZF++++XF]--XF"
   };
 
-  let newRules = randomizeRules(rules);
+  let newRules = randomizeRules(rules, hash);
   console.log(newRules);
   let repeats = 1; // Control for repeats in render()
   let bgColor = (0, 22, 21); // Background color
-  let strokeColor = [255, 60]; // Stroke color
+  let strokeColor = getStrokeColorFromHash(hash);
 
   ds = new PenroseLSystem(startLength, theta, generations, newRules, repeats, bgColor, strokeColor);
   ds.simulate(generations);
@@ -45,8 +84,8 @@ function draw() {
   ds.render();
 }
 
-function randomizeRules(rules) {
-  let symbols = ['F', '+', '-', 'X', 'Y', 'Z', 'W']; // Removed brackets from the list
+function randomizeRules(rules, hash) {
+  let symbols = ['F', '+', '-', 'X', 'Y', 'Z', 'W'];
   let modifiedRules = {};
 
   for (let key in rules) {
@@ -56,16 +95,15 @@ function randomizeRules(rules) {
     for (let i = 0; i < rule.length; i++) {
       let currentChar = rule[i];
       
-      // Check if the current character is a bracket
-      if (currentChar === '[' || currentChar === ']') {
-        newRule += currentChar; // Keep the bracket unchanged
-      } else {
-        // Randomly decide whether to modify this character
-        if (random() < 0.1) { // 10% chance to modify the character
-          newRule += random(symbols); // Replace with a random symbol
+      // Use hash-based randomness
+      if (currentChar !== '[' && currentChar !== ']') {
+        if (hashRandom(hash, i) < 0.1) {
+          newRule += symbols[Math.floor(hashRandom(hash, i + 1) * symbols.length)];
         } else {
           newRule += currentChar;
         }
+      } else {
+        newRule += currentChar;
       }
     }
 
@@ -153,7 +191,7 @@ PenroseLSystem.prototype.render = function () {
     for(let i = 0; i < this.steps; ++i) {
       let step = this.production.charAt(i);
       if( step == 'F') {
-        stroke(this.strokeColor[0], this.strokeColor[1]);
+        stroke(this.strokeColor[0], this.strokeColor[1], this.strokeColor[2]);
         for(let j = 0; j < this.repeats; j++) {
           line(0, 0, 0, -this.drawLength);
           noFill();
