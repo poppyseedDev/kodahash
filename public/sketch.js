@@ -14,11 +14,6 @@ function getThetaFromHash(hash) {
  return predefinedValues[getValueFromHash(hash, 6, predefinedValues.length)];
 }
 
-function getGenerationsFromHash(hash) {
- // Get a value between 3 and 6
- return getValueFromHash(hash, 4, 4) + 2;
-}
-
 function getStrokeColorFromHash(hash) {
  // Generate RGB values based on different parts of the hash
  const r = Math.floor(hashRandom(hash, 4) * 150) + 100;
@@ -61,7 +56,7 @@ function setup() {
   // Parameters that the user can modify
   let startLength = 460.0;
   let theta = getThetaFromHash(hash); // 6, 8, 10 
-  let generations = getGenerationsFromHash(hash);
+  let generations = 3;
   let rules = {
     W: "YF++ZF----XF[-YF----WF]++",
     X: "+YF--ZF[---WF--XF]+",
@@ -94,10 +89,9 @@ function randomizeRules(rules, hash) {
 
     for (let i = 0; i < rule.length; i++) {
       let currentChar = rule[i];
-      
-      // Use hash-based randomness
+      // Increase the probability of modification for more variability
       if (currentChar !== '[' && currentChar !== ']') {
-        if (hashRandom(hash, i) < 0.1) {
+        if (hashRandom(hash, i) < 0.2) { // Increased probability
           newRule += symbols[Math.floor(hashRandom(hash, i + 1) * symbols.length)];
         } else {
           newRule += currentChar;
