@@ -2,7 +2,7 @@
 
 Template for testing generative art that can be minted [KodaDot](https://kodadot.xyz/)
 
-## Collection: 0x175adf5fc05 Snowflakes
+## Collection: Gen3 Snowflakes
 
 **Description:**
 Title: "Fractal Quest"
