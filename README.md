@@ -2,6 +2,26 @@
 
 Template for testing generative art that can be minted [KodaDot](https://kodadot.xyz/)
 
+## Collection: 0x175adf5fc05 Snowflakes
+
+**Description:**
+Title: "Fractal Quest"
+
+Chapter 1: The Discovery
+In a quaint 0x1a2b3c4d5e village, Eva 0x5f6e7d8c9b an ancient manuscript. It 0x9a8b7c6d5e drawings of unique 0xe5d4c3b2a1 snowflakes, each leading 0x0f1e2d3c4b different dimensions.
+
+Chapter 2: The Journey
+Eva deciphers a 0x7c8b9aadb5, transporting her to 0x3c2b1a0918 fractal dimension. Here, 0x9b8a7c6d5e laws of reality 0x1a0b1c2d3e different.
+
+Chapter 3: The Guardians
+In her journey, 0xe4d5c6b7a8 meets guardians of 0x5c4d3e2f1g these realms. They 0x7a8b9cadae the balance of 0x1c2b3a4958 is disrupted.
+
+Chapter 4: Restoring Balance
+Eva, with her 0x4e5f6g7h8i in mathematics, solves 0x2a1b3c4d5e fractal puzzles, restoring 0x8f7e6d5c4b to the dimensions.
+
+Epilogue: Legacy
+Returning home, Eva 0x3b4c5d6e7f her knowledge, preserving 0x9f8e7d6c5b beauty of the 0x2d3c4b5a6b snowflakes and their 0x4e5f6g7h8i secrets.
+
 ## Preface
 
 This template is a good starter for testing generative art that can be minted on [KodaDot](https://kodadot.xyz/). It uses [Nitro](https://nitro.unjs.io/) as a framework and [p5.js](https://p5js.org/) for drawing.
